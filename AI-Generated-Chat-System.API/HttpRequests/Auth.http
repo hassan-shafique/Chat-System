@@ -1,0 +1,51 @@
+@AI_Generated_Chat_System.API_HostAddress = http://localhost:5022
+
+### Register User
+POST {{AI_Generated_Chat_System.API_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "testuser@example.com",
+  "password": "Password123!"
+}
+
+### Login User
+# @name login
+POST {{AI_Generated_Chat_System.API_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "Password123!"
+}
+
+### Store Token Variables (Requires REST Client/HTTP Client extension support)
+@token = {{login.response.body.token}}
+@refreshToken = {{login.response.body.refreshToken}}
+
+### Enable 2FA
+POST {{AI_Generated_Chat_System.API_HostAddress}}/api/auth/testuser/2fa/enable
+Authorization: Bearer {{token}}
+
+### Verify 2FA Setup
+POST {{AI_Generated_Chat_System.API_HostAddress}}/api/auth/testuser/2fa/verify-setup
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "code": "123456"
+}
+
+### Disable 2FA
+POST {{AI_Generated_Chat_System.API_HostAddress}}/api/auth/testuser/2fa/disable
+Authorization: Bearer {{token}}
+
+### Refresh Token
+POST {{AI_Generated_Chat_System.API_HostAddress}}/api/auth/refresh-token
+Content-Type: application/json
+
+{
+  "accessToken": "{{token}}",
+  "refreshToken": "{{refreshToken}}"
+}
