@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AI_Generated_Chat_System.API.Controllers;
 using AI_Generated_Chat_System.Domain.Entities;
+using AI_Generated_Chat_System.API.Hubs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -15,6 +17,7 @@ namespace AI_Generated_Chat_System.Tests
     {
         private readonly Mock<UserManager<ApplicationUser>> _mockUserManager;
         private readonly Mock<RoleManager<IdentityRole>> _mockRoleManager;
+        private readonly Mock<IHubContext<ChatHub>> _mockHubContext;
         private readonly Mock<IConfiguration> _mockConfiguration;
         private readonly AuthController _controller;
 
@@ -30,13 +33,19 @@ namespace AI_Generated_Chat_System.Tests
             var roleStore = new Mock<IRoleStore<IdentityRole>>();
             _mockRoleManager = new Mock<RoleManager<IdentityRole>>(roleStore.Object, null, null, null, null);
             
+            _mockHubContext = new Mock<IHubContext<ChatHub>>();
+            var mockClients = new Mock<IHubClients>();
+            var mockClientProxy = new Mock<IClientProxy>();
+            mockClients.Setup(x => x.All).Returns(mockClientProxy.Object);
+            _mockHubContext.Setup(x => x.Clients).Returns(mockClients.Object);
+
             _mockConfiguration = new Mock<IConfiguration>();
 
             var mockJwtSection = new Mock<IConfigurationSection>();
             mockJwtSection.Setup(x => x.Value).Returns("superSecretKey_At_Least_16_Bytes_Long!!^^");
             _mockConfiguration.Setup(x => x.GetSection("Jwt:Key")).Returns(mockJwtSection.Object);
 
-            _controller = new AuthController(_mockUserManager.Object, _mockRoleManager.Object, _mockConfiguration.Object);
+            _controller = new AuthController(_mockUserManager.Object, _mockRoleManager.Object, _mockHubContext.Object, _mockConfiguration.Object);
         }
 
         [Fact]

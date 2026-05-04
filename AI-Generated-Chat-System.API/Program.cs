@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AI_Generated_Chat_System.Domain.Entities;
 using AI_Generated_Chat_System.Infrastructure;
+using AI_Generated_Chat_System.API.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +35,22 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["Jwt:Audience"] ?? "http://localhost:5000",
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chathub"))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
+
+builder.Services.AddSignalR();
 
 builder.Services.AddAuthorization(options =>
 {
@@ -61,6 +77,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/chathub");
 
 var summaries = new[]
 {
