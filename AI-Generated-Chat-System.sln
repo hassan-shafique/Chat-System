@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AI-Generated-Chat-System.In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AI-Generated-Chat-System.API", "AI-Generated-Chat-System.API\AI-Generated-Chat-System.API.csproj", "{6B04CF45-4B16-4947-91D0-225A637B2D4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AI-Generated-Chat-System.Tests", "AI-Generated-Chat-System.Tests\AI-Generated-Chat-System.Tests.csproj", "{332E5C0A-8D0D-4956-BE15-1F2EFC430622}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{6B04CF45-4B16-4947-91D0-225A637B2D4C}.Release|x64.Build.0 = Release|Any CPU
 		{6B04CF45-4B16-4947-91D0-225A637B2D4C}.Release|x86.ActiveCfg = Release|Any CPU
 		{6B04CF45-4B16-4947-91D0-225A637B2D4C}.Release|x86.Build.0 = Release|Any CPU
+		{332E5C0A-8D0D-4956-BE15-1F2EFC430622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{332E5C0A-8D0D-4956-BE15-1F2EFC430622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{332E5C0A-8D0D-4956-BE15-1F2EFC430622}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{332E5C0A-8D0D-4956-BE15-1F2EFC430622}.Debug|x64.Build.0 = Debug|Any CPU
+		{332E5C0A-8D0D-4956-BE15-1F2EFC430622}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{332E5C0A-8D0D-4956-BE15-1F2EFC430622}.Debug|x86.Build.0 = Debug|Any CPU
+		{332E5C0A-8D0D-4956-BE15-1F2EFC430622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{332E5C0A-8D0D-4956-BE15-1F2EFC430622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{332E5C0A-8D0D-4956-BE15-1F2EFC430622}.Release|x64.ActiveCfg = Release|Any CPU
+		{332E5C0A-8D0D-4956-BE15-1F2EFC430622}.Release|x64.Build.0 = Release|Any CPU
+		{332E5C0A-8D0D-4956-BE15-1F2EFC430622}.Release|x86.ActiveCfg = Release|Any CPU
+		{332E5C0A-8D0D-4956-BE15-1F2EFC430622}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
