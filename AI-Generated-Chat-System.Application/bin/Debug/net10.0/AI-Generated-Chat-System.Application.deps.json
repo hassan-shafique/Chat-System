@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "AI-Generated-Chat-System.Application/1.0.0": {
+        "dependencies": {
+          "AI-Generated-Chat-System.Domain": "1.0.0"
+        },
+        "runtime": {
+          "AI-Generated-Chat-System.Application.dll": {}
+        }
+      },
+      "AI-Generated-Chat-System.Domain/1.0.0": {
+        "runtime": {
+          "AI-Generated-Chat-System.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AI-Generated-Chat-System.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AI-Generated-Chat-System.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
