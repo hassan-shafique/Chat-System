@@ -40,6 +40,16 @@ namespace AI_Generated_Chat_System.API.Controllers
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
+                if (await _userManager.GetTwoFactorEnabledAsync(user))
+                {
+                    if (string.IsNullOrEmpty(model.TwoFactorCode))
+                        return Ok(new { RequiresTwoFactor = true });
+
+                    var isValid = await _userManager.VerifyTwoFactorTokenAsync(user, _userManager.Options.Tokens.AuthenticatorTokenProvider, model.TwoFactorCode);
+                    if (!isValid)
+                        return Unauthorized("Invalid 2FA code.");
+                }
+
                 var token = GenerateJwtToken(user);
                 user.RefreshToken = GenerateRefreshToken();
                 user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
@@ -52,6 +62,49 @@ namespace AI_Generated_Chat_System.API.Controllers
                 });
             }
             return Unauthorized();
+        }
+
+        [HttpPost("{username}/2fa/enable")]
+        public async Task<IActionResult> Enable2FA(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null) return NotFound();
+
+            var key = await _userManager.GetAuthenticatorKeyAsync(user);
+            if (string.IsNullOrEmpty(key))
+            {
+                await _userManager.ResetAuthenticatorKeyAsync(user);
+                key = await _userManager.GetAuthenticatorKeyAsync(user);
+            }
+
+            var qrCodeUri = $"otpauth://totp/AI-Generated-Chat-System:{user.Email}?secret={key}&issuer=AI-Generated-Chat-System";
+            return Ok(new { SharedKey = key, QrCodeUri = qrCodeUri });
+        }
+
+        [HttpPost("{username}/2fa/verify-setup")]
+        public async Task<IActionResult> VerifySetup2FA(string username, [FromBody] Setup2faDto model)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null) return NotFound();
+
+            var isValid = await _userManager.VerifyTwoFactorTokenAsync(user, _userManager.Options.Tokens.AuthenticatorTokenProvider, model.Code);
+            if (isValid)
+            {
+                await _userManager.SetTwoFactorEnabledAsync(user, true);
+                return Ok(new { Message = "2FA enabled successfully" });
+            }
+
+            return BadRequest("Invalid 2FA code.");
+        }
+
+        [HttpPost("{username}/2fa/disable")]
+        public async Task<IActionResult> Disable2FA(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null) return NotFound();
+
+            await _userManager.SetTwoFactorEnabledAsync(user, false);
+            return Ok(new { Message = "2FA disabled successfully" });
         }
 
         [HttpPost("refresh-token")]
@@ -142,6 +195,12 @@ namespace AI_Generated_Chat_System.API.Controllers
     {
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+        public string? TwoFactorCode { get; set; }
+    }
+
+    public class Setup2faDto
+    {
+        public string Code { get; set; } = string.Empty;
     }
 
     public class RefreshTokenDto
