@@ -9,3 +9,5 @@ Z:\New folder\SignalR\AI-Generated-Chat-System\AI-Generated-Chat-System.Domain\o
 Z:\New folder\SignalR\AI-Generated-Chat-System\AI-Generated-Chat-System.Domain\obj\Debug\net10.0\refint\AI-Generated-Chat-System.Domain.dll
 Z:\New folder\SignalR\AI-Generated-Chat-System\AI-Generated-Chat-System.Domain\obj\Debug\net10.0\AI-Generated-Chat-System.Domain.pdb
 Z:\New folder\SignalR\AI-Generated-Chat-System\AI-Generated-Chat-System.Domain\obj\Debug\net10.0\ref\AI-Generated-Chat-System.Domain.dll
+Z:\New folder\SignalR\AI-Generated-Chat-System\AI-Generated-Chat-System.Domain\obj\Debug\net10.0\AI-Generated-Chat-System.Domain.csproj.AssemblyReference.cache
+Z:\New folder\SignalR\AI-Generated-Chat-System\AI-Generated-Chat-System.Domain\obj\Debug\net10.0\AI-Generated-Chat-System.Domain.sourcelink.json

@@ -10,10 +10,42 @@
         "dependencies": {
           "AI-Generated-Chat-System.Application": "1.0.0",
           "AI-Generated-Chat-System.Domain": "1.0.0",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "10.0.7",
           "Microsoft.EntityFrameworkCore.Sqlite": "10.0.7"
         },
         "runtime": {
           "AI-Generated-Chat-System.Infrastructure.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Cryptography.Internal/10.0.7": {
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.Cryptography.Internal.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.726.21808"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Cryptography.KeyDerivation/10.0.7": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Cryptography.Internal": "10.0.7"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.726.21808"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Identity.EntityFrameworkCore/10.0.7": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.7",
+          "Microsoft.Extensions.Identity.Stores": "10.0.7"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll": {
+            "assemblyVersion": "10.0.7.0",
+            "fileVersion": "10.0.726.21808"
+          }
         }
       },
       "Microsoft.Data.Sqlite.Core/10.0.7": {
@@ -116,12 +148,36 @@
           }
         }
       },
+      "Microsoft.Extensions.Configuration/10.0.7": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.7",
+          "Microsoft.Extensions.Primitives": "10.0.7"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.Configuration.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.726.21808"
+          }
+        }
+      },
       "Microsoft.Extensions.Configuration.Abstractions/10.0.7": {
         "dependencies": {
           "Microsoft.Extensions.Primitives": "10.0.7"
         },
         "runtime": {
           "lib/net10.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.726.21808"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.Binder/10.0.7": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "10.0.7",
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.7"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.Configuration.Binder.dll": {
             "assemblyVersion": "10.0.0.0",
             "fileVersion": "10.0.726.21808"
           }
@@ -150,6 +206,58 @@
         "runtime": {
           "lib/net10.0/Microsoft.Extensions.DependencyModel.dll": {
             "assemblyVersion": "10.0.0.7",
+            "fileVersion": "10.0.726.21808"
+          }
+        }
+      },
+      "Microsoft.Extensions.Diagnostics/10.0.7": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "10.0.7",
+          "Microsoft.Extensions.Diagnostics.Abstractions": "10.0.7",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "10.0.7"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.Diagnostics.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.726.21808"
+          }
+        }
+      },
+      "Microsoft.Extensions.Diagnostics.Abstractions/10.0.7": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.7",
+          "Microsoft.Extensions.Options": "10.0.7"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.Diagnostics.Abstractions.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.726.21808"
+          }
+        }
+      },
+      "Microsoft.Extensions.Identity.Core/10.0.7": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Cryptography.KeyDerivation": "10.0.7",
+          "Microsoft.Extensions.Diagnostics": "10.0.7",
+          "Microsoft.Extensions.Logging": "10.0.7",
+          "Microsoft.Extensions.Options": "10.0.7"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.Identity.Core.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.726.21808"
+          }
+        }
+      },
+      "Microsoft.Extensions.Identity.Stores/10.0.7": {
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "10.0.7",
+          "Microsoft.Extensions.Identity.Core": "10.0.7",
+          "Microsoft.Extensions.Logging": "10.0.7"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.Identity.Stores.dll": {
+            "assemblyVersion": "10.0.0.0",
             "fileVersion": "10.0.726.21808"
           }
         }
@@ -185,6 +293,21 @@
         },
         "runtime": {
           "lib/net10.0/Microsoft.Extensions.Options.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.726.21808"
+          }
+        }
+      },
+      "Microsoft.Extensions.Options.ConfigurationExtensions/10.0.7": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.7",
+          "Microsoft.Extensions.Configuration.Binder": "10.0.7",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.7",
+          "Microsoft.Extensions.Options": "10.0.7",
+          "Microsoft.Extensions.Primitives": "10.0.7"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.Options.ConfigurationExtensions.dll": {
             "assemblyVersion": "10.0.0.0",
             "fileVersion": "10.0.726.21808"
           }
@@ -360,6 +483,9 @@
         }
       },
       "AI-Generated-Chat-System.Domain/1.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Identity.Stores": "10.0.7"
+        },
         "runtime": {
           "AI-Generated-Chat-System.Domain.dll": {
             "assemblyVersion": "1.0.0.0",
@@ -374,6 +500,27 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Microsoft.AspNetCore.Cryptography.Internal/10.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-unTeI3bPmzsl5Xo2Irg7jW8osCjo/H2rBT5sTqopUUI0gbLyTYuTjDyxoKjykjS/nS2jUdAKVFWFoGF1s1g4HQ==",
+      "path": "microsoft.aspnetcore.cryptography.internal/10.0.7",
+      "hashPath": "microsoft.aspnetcore.cryptography.internal.10.0.7.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Cryptography.KeyDerivation/10.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qwLYWCaxt23MF7ea/rIDvaRg3oyi6O51nU1YivAuBojrAvUjROHeIpIBxHaWvpH3WoWFf9lX5V40ufo/KKp5ZQ==",
+      "path": "microsoft.aspnetcore.cryptography.keyderivation/10.0.7",
+      "hashPath": "microsoft.aspnetcore.cryptography.keyderivation.10.0.7.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore/10.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WAMNMV7m019wBaem9YAyK+nsR6r5ixBL/kOPybO9QhEkwG4dOeVG3vvTTkI5I6q6fp5+MN6IuYxxV/2HYiI9vw==",
+      "path": "microsoft.aspnetcore.identity.entityframeworkcore/10.0.7",
+      "hashPath": "microsoft.aspnetcore.identity.entityframeworkcore.10.0.7.nupkg.sha512"
     },
     "Microsoft.Data.Sqlite.Core/10.0.7": {
       "type": "package",
@@ -431,12 +578,26 @@
       "path": "microsoft.extensions.caching.memory/10.0.7",
       "hashPath": "microsoft.extensions.caching.memory.10.0.7.nupkg.sha512"
     },
+    "Microsoft.Extensions.Configuration/10.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wZbGh7J8R1vXN525O6d8dlcDTxhRTnd5MyW4LdfP5S0tSnTwTCseYSrq6g0Mxh7W9xn8P/2xPuf0D/m6k2dy2w==",
+      "path": "microsoft.extensions.configuration/10.0.7",
+      "hashPath": "microsoft.extensions.configuration.10.0.7.nupkg.sha512"
+    },
     "Microsoft.Extensions.Configuration.Abstractions/10.0.7": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-t56nEgvECcyLPojZIUFWJknQQDAbgfTf9J+QMYJE1YYvVgz69vN6B/AKL8Grvj3Lcnp8kTpNqwmwFhb3YLJmtQ==",
       "path": "microsoft.extensions.configuration.abstractions/10.0.7",
       "hashPath": "microsoft.extensions.configuration.abstractions.10.0.7.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.Binder/10.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8bS1qIaRivny+WX+49pmeJ6iAylbtX8C0DLEcCQWZjdxQvLqaMssXiGD9P/6pYElrHbK5/nAHmjbQ8STqdMYeg==",
+      "path": "microsoft.extensions.configuration.binder/10.0.7",
+      "hashPath": "microsoft.extensions.configuration.binder.10.0.7.nupkg.sha512"
     },
     "Microsoft.Extensions.DependencyInjection/10.0.7": {
       "type": "package",
@@ -459,6 +620,34 @@
       "path": "microsoft.extensions.dependencymodel/10.0.7",
       "hashPath": "microsoft.extensions.dependencymodel.10.0.7.nupkg.sha512"
     },
+    "Microsoft.Extensions.Diagnostics/10.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-l+smp1qPlU0OUXD0OGfdp7OUFrbdq7ZaP5T7m2WpfZ4RFKD7iG73BAT7tjSMxNmbSXkhAn1jYHOAqzYG1r9sNg==",
+      "path": "microsoft.extensions.diagnostics/10.0.7",
+      "hashPath": "microsoft.extensions.diagnostics.10.0.7.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Diagnostics.Abstractions/10.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uJ9JP677y+uy+C0vtaSfi7XXgFAdz8DhU3M9lwwIXDfQKcyQ0yxM9DVYa0NXDtdVTYA2eBUtVFZ8LY0GCdeE/w==",
+      "path": "microsoft.extensions.diagnostics.abstractions/10.0.7",
+      "hashPath": "microsoft.extensions.diagnostics.abstractions.10.0.7.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Identity.Core/10.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-br70n9iuhhn4HU6DrNH96/Rdh6dnW72VoLioQ9UF+XYSjAEREe1TqgyuvUJBVJzayRyuy+rWQrx3eOF38udeSQ==",
+      "path": "microsoft.extensions.identity.core/10.0.7",
+      "hashPath": "microsoft.extensions.identity.core.10.0.7.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Identity.Stores/10.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zDsolTKiYBP29zxszqNMpecPDkuJtq0JCh4rqXZryGQV+azGDBpCZ7DyUpKk2Pp8Ea3pKaXttZZJRy7c3ay+UA==",
+      "path": "microsoft.extensions.identity.stores/10.0.7",
+      "hashPath": "microsoft.extensions.identity.stores.10.0.7.nupkg.sha512"
+    },
     "Microsoft.Extensions.Logging/10.0.7": {
       "type": "package",
       "serviceable": true,
@@ -479,6 +668,13 @@
       "sha512": "sha512-00SHUGTh2jSMvIr6x9Xwd2nE+B5/qFCO/9hDwUDhJsjYRDlADmaBZ7tqehXzBDsfjHSXJzuRHJzPYPPjphBQ7Q==",
       "path": "microsoft.extensions.options/10.0.7",
       "hashPath": "microsoft.extensions.options.10.0.7.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Options.ConfigurationExtensions/10.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IT7f+EMXZtkjatEcF+o6aOw/7OE4etRrMiDGEWH/iiTu2R3uhC4NEQJCfHiibtX45U3sIQ5Fh6tbb1qaOz3YAg==",
+      "path": "microsoft.extensions.options.configurationextensions/10.0.7",
+      "hashPath": "microsoft.extensions.options.configurationextensions.10.0.7.nupkg.sha512"
     },
     "Microsoft.Extensions.Primitives/10.0.7": {
       "type": "package",

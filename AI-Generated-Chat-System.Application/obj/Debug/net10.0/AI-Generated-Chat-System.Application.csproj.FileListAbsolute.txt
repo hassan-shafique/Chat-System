@@ -13,3 +13,4 @@ Z:\New folder\SignalR\AI-Generated-Chat-System\AI-Generated-Chat-System.Applicat
 Z:\New folder\SignalR\AI-Generated-Chat-System\AI-Generated-Chat-System.Application\obj\Debug\net10.0\refint\AI-Generated-Chat-System.Application.dll
 Z:\New folder\SignalR\AI-Generated-Chat-System\AI-Generated-Chat-System.Application\obj\Debug\net10.0\AI-Generated-Chat-System.Application.pdb
 Z:\New folder\SignalR\AI-Generated-Chat-System\AI-Generated-Chat-System.Application\obj\Debug\net10.0\ref\AI-Generated-Chat-System.Application.dll
+Z:\New folder\SignalR\AI-Generated-Chat-System\AI-Generated-Chat-System.Application\obj\Debug\net10.0\AI-Generated-Chat-System.Application.sourcelink.json
