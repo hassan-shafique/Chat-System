@@ -6,7 +6,9 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using AI_Generated_Chat_System.Domain.Entities;
+using AI_Generated_Chat_System.API.Hubs;
 
 namespace AI_Generated_Chat_System.API.Controllers
 {
@@ -16,12 +18,14 @@ namespace AI_Generated_Chat_System.API.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IHubContext<ChatHub> _hubContext;
         private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IHubContext<ChatHub> hubContext, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _hubContext = hubContext;
             _configuration = configuration;
         }
 
@@ -121,7 +125,10 @@ namespace AI_Generated_Chat_System.API.Controllers
 
             var result = await _userManager.AddToRoleAsync(user, role);
             if (result.Succeeded)
+            {
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", "System", $"User {username} has been assigned the role: {role}");
                 return Ok(new { Message = $"Role {role} assigned to {username} successfully" });
+            }
 
             return BadRequest(result.Errors);
         }
