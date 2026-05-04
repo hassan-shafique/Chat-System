@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using AI_Generated_Chat_System.Domain.Entities;
 
 namespace AI_Generated_Chat_System.API.Controllers
@@ -14,11 +15,13 @@ namespace AI_Generated_Chat_System.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _configuration = configuration;
         }
 
@@ -50,7 +53,7 @@ namespace AI_Generated_Chat_System.API.Controllers
                         return Unauthorized("Invalid 2FA code.");
                 }
 
-                var token = GenerateJwtToken(user);
+                var token = await GenerateJwtToken(user);
                 user.RefreshToken = GenerateRefreshToken();
                 user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
                 await _userManager.UpdateAsync(user);
@@ -107,6 +110,36 @@ namespace AI_Generated_Chat_System.API.Controllers
             return Ok(new { Message = "2FA disabled successfully" });
         }
 
+        [HttpPost("{username}/assign-role")]
+        public async Task<IActionResult> AssignRole(string username, [FromBody] string role)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null) return NotFound("User not found");
+
+            if (!await _roleManager.RoleExistsAsync(role))
+                return BadRequest("Role does not exist.");
+
+            var result = await _userManager.AddToRoleAsync(user, role);
+            if (result.Succeeded)
+                return Ok(new { Message = $"Role {role} assigned to {username} successfully" });
+
+            return BadRequest(result.Errors);
+        }
+
+        [Authorize(Roles = "Super Admin,Admin")]
+        [HttpGet("admin-only")]
+        public IActionResult AdminOnly()
+        {
+            return Ok("You have access to the Admin-Only endpoint.");
+        }
+
+        [Authorize(Policy = "FinanceOnly")]
+        [HttpGet("finance-only")]
+        public IActionResult FinanceOnly()
+        {
+            return Ok("You have access to the Finance-Only endpoint.");
+        }
+
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenDto model)
         {
@@ -123,7 +156,7 @@ namespace AI_Generated_Chat_System.API.Controllers
             if (user == null || user.RefreshToken != model.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
                 return BadRequest("Invalid access token or refresh token");
 
-            var newAccessToken = GenerateJwtToken(user);
+            var newAccessToken = await GenerateJwtToken(user);
             var newRefreshToken = GenerateRefreshToken();
 
             user.RefreshToken = newRefreshToken;
@@ -136,7 +169,7 @@ namespace AI_Generated_Chat_System.API.Controllers
             });
         }
 
-        private string GenerateJwtToken(ApplicationUser user)
+        private async Task<string> GenerateJwtToken(ApplicationUser user)
         {
             var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? "superSecretKey_At_Least_16_Bytes_Long!!^^");
             var claims = new List<Claim>
@@ -144,6 +177,12 @@ namespace AI_Generated_Chat_System.API.Controllers
                 new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            foreach (var role in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"] ?? "http://localhost:5000",

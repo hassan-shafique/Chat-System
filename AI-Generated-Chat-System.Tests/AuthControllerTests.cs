@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AI_Generated_Chat_System.API.Controllers;
 using AI_Generated_Chat_System.Domain.Entities;
@@ -13,6 +14,7 @@ namespace AI_Generated_Chat_System.Tests
     public class AuthControllerTests
     {
         private readonly Mock<UserManager<ApplicationUser>> _mockUserManager;
+        private readonly Mock<RoleManager<IdentityRole>> _mockRoleManager;
         private readonly Mock<IConfiguration> _mockConfiguration;
         private readonly AuthController _controller;
 
@@ -24,13 +26,17 @@ namespace AI_Generated_Chat_System.Tests
             options.Setup(o => o.Value).Returns(idOptions);
 
             _mockUserManager = new Mock<UserManager<ApplicationUser>>(store.Object, options.Object, null, null, null, null, null, null, null);
+            
+            var roleStore = new Mock<IRoleStore<IdentityRole>>();
+            _mockRoleManager = new Mock<RoleManager<IdentityRole>>(roleStore.Object, null, null, null, null);
+            
             _mockConfiguration = new Mock<IConfiguration>();
 
             var mockJwtSection = new Mock<IConfigurationSection>();
             mockJwtSection.Setup(x => x.Value).Returns("superSecretKey_At_Least_16_Bytes_Long!!^^");
             _mockConfiguration.Setup(x => x.GetSection("Jwt:Key")).Returns(mockJwtSection.Object);
 
-            _controller = new AuthController(_mockUserManager.Object, _mockConfiguration.Object);
+            _controller = new AuthController(_mockUserManager.Object, _mockRoleManager.Object, _mockConfiguration.Object);
         }
 
         [Fact]
@@ -41,6 +47,7 @@ namespace AI_Generated_Chat_System.Tests
             _mockUserManager.Setup(x => x.CheckPasswordAsync(user, "Password123")).ReturnsAsync(true);
             _mockUserManager.Setup(x => x.GetTwoFactorEnabledAsync(user)).ReturnsAsync(false);
             _mockUserManager.Setup(x => x.UpdateAsync(user)).ReturnsAsync(IdentityResult.Success);
+            _mockUserManager.Setup(x => x.GetRolesAsync(user)).ReturnsAsync(new List<string>());
 
             var result = await _controller.Login(new LoginDto { Username = "testuser", Password = "Password123" });
 
@@ -55,6 +62,7 @@ namespace AI_Generated_Chat_System.Tests
             _mockUserManager.Setup(x => x.FindByNameAsync("testuser")).ReturnsAsync(user);
             _mockUserManager.Setup(x => x.CheckPasswordAsync(user, "Password123")).ReturnsAsync(true);
             _mockUserManager.Setup(x => x.GetTwoFactorEnabledAsync(user)).ReturnsAsync(true);
+            _mockUserManager.Setup(x => x.GetRolesAsync(user)).ReturnsAsync(new List<string>());
 
             var result = await _controller.Login(new LoginDto { Username = "testuser", Password = "Password123" });
 
@@ -71,6 +79,7 @@ namespace AI_Generated_Chat_System.Tests
             _mockUserManager.Setup(x => x.CheckPasswordAsync(user, "Password123")).ReturnsAsync(true);
             _mockUserManager.Setup(x => x.GetTwoFactorEnabledAsync(user)).ReturnsAsync(true);
             _mockUserManager.Setup(x => x.VerifyTwoFactorTokenAsync(user, It.IsAny<string>(), "123456")).ReturnsAsync(false);
+            _mockUserManager.Setup(x => x.GetRolesAsync(user)).ReturnsAsync(new List<string>());
 
             var result = await _controller.Login(new LoginDto { Username = "testuser", Password = "Password123", TwoFactorCode = "123456" });
 
