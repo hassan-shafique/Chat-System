@@ -1,0 +1,6 @@
+@AI_Generated_Chat_System.API_HostAddress = http://localhost:5022
+
+GET {{AI_Generated_Chat_System.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
