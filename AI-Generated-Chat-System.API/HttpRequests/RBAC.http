@@ -1,0 +1,18 @@
+@AI_Generated_Chat_System.API_HostAddress = http://localhost:5022
+@token = your_jwt_token_here
+@username = testuser
+
+### Assign Role to User
+# Available roles: "Super Admin", "Admin", "Teacher", "Student", "Finance Officer"
+POST {{AI_Generated_Chat_System.API_HostAddress}}/api/auth/{{username}}/assign-role
+Content-Type: application/json
+
+"Admin"
+
+### Test Admin-Only Endpoint
+GET {{AI_Generated_Chat_System.API_HostAddress}}/api/auth/admin-only
+Authorization: Bearer {{token}}
+
+### Test Finance-Only Endpoint
+GET {{AI_Generated_Chat_System.API_HostAddress}}/api/auth/finance-only
+Authorization: Bearer {{token}}

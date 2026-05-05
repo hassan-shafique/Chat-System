@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AI-Generated-Chat-System.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6d38591655b221883a940963daae52ad0cc7600e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+050a0856f3c0ac506fbfe3411f2e270a26a381a7")]
 [assembly: System.Reflection.AssemblyProductAttribute("AI-Generated-Chat-System.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AI-Generated-Chat-System.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

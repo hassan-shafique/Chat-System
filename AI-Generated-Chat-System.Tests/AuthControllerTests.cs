@@ -95,5 +95,43 @@ namespace AI_Generated_Chat_System.Tests
             var unauthResult = Assert.IsType<UnauthorizedObjectResult>(result);
             Assert.Equal("Invalid 2FA code.", unauthResult.Value);
         }
+        [Fact]
+        public async Task AssignRole_UserNotFound_ReturnsNotFound()
+        {
+            _mockUserManager.Setup(x => x.FindByNameAsync("nonexistent")).ReturnsAsync((ApplicationUser)null!);
+
+            var result = await _controller.AssignRole("nonexistent", "Admin");
+
+            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal("User not found", notFoundResult.Value);
+        }
+
+        [Fact]
+        public async Task AssignRole_RoleNotFound_ReturnsBadRequest()
+        {
+            var user = new ApplicationUser { UserName = "testuser" };
+            _mockUserManager.Setup(x => x.FindByNameAsync("testuser")).ReturnsAsync(user);
+            _mockRoleManager.Setup(x => x.RoleExistsAsync("NonExistentRole")).ReturnsAsync(false);
+
+            var result = await _controller.AssignRole("testuser", "NonExistentRole");
+
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Role does not exist.", badRequestResult.Value);
+        }
+
+        [Fact]
+        public async Task AssignRole_Success_ReturnsOk()
+        {
+            var user = new ApplicationUser { UserName = "testuser" };
+            _mockUserManager.Setup(x => x.FindByNameAsync("testuser")).ReturnsAsync(user);
+            _mockRoleManager.Setup(x => x.RoleExistsAsync("Admin")).ReturnsAsync(true);
+            _mockUserManager.Setup(x => x.AddToRoleAsync(user, "Admin")).ReturnsAsync(IdentityResult.Success);
+
+            var result = await _controller.AssignRole("testuser", "Admin");
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var jsonStr = System.Text.Json.JsonSerializer.Serialize(okResult.Value);
+            Assert.Contains("successfully", jsonStr);
+        }
     }
 }
