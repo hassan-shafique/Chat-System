@@ -133,5 +133,146 @@ namespace AI_Generated_Chat_System.Tests
             var jsonStr = System.Text.Json.JsonSerializer.Serialize(okResult.Value);
             Assert.Contains("successfully", jsonStr);
         }
+
+        [Fact]
+        public async Task Register_Success_ReturnsOk()
+        {
+            _mockUserManager.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), "Password123"))
+                .ReturnsAsync(IdentityResult.Success);
+
+            var result = await _controller.Register(new RegisterDto { Username = "newuser", Email = "new@test.com", Password = "Password123" });
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var jsonStr = System.Text.Json.JsonSerializer.Serialize(okResult.Value);
+            Assert.Contains("successfully", jsonStr);
+        }
+
+        [Fact]
+        public async Task Register_Failure_ReturnsBadRequest()
+        {
+            _mockUserManager.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), "Password123"))
+                .ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "Error" }));
+
+            var result = await _controller.Register(new RegisterDto { Username = "newuser", Email = "new@test.com", Password = "Password123" });
+
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task Login_InvalidUsername_ReturnsUnauthorized()
+        {
+            _mockUserManager.Setup(x => x.FindByNameAsync("nonexistent")).ReturnsAsync((ApplicationUser)null!);
+
+            var result = await _controller.Login(new LoginDto { Username = "nonexistent", Password = "Password123" });
+
+            Assert.IsType<UnauthorizedResult>(result);
+        }
+
+        [Fact]
+        public async Task Login_InvalidPassword_ReturnsUnauthorized()
+        {
+            var user = new ApplicationUser { UserName = "testuser" };
+            _mockUserManager.Setup(x => x.FindByNameAsync("testuser")).ReturnsAsync(user);
+            _mockUserManager.Setup(x => x.CheckPasswordAsync(user, "WrongPass")).ReturnsAsync(false);
+
+            var result = await _controller.Login(new LoginDto { Username = "testuser", Password = "WrongPass" });
+
+            Assert.IsType<UnauthorizedResult>(result);
+        }
+
+        [Fact]
+        public async Task Enable2FA_UserNotFound_ReturnsNotFound()
+        {
+            _mockUserManager.Setup(x => x.FindByNameAsync("nonexistent")).ReturnsAsync((ApplicationUser)null!);
+
+            var result = await _controller.Enable2FA("nonexistent");
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task Enable2FA_Success_ReturnsOkAndQrCodeUri()
+        {
+            var user = new ApplicationUser { UserName = "testuser", Email = "test@test.com" };
+            _mockUserManager.Setup(x => x.FindByNameAsync("testuser")).ReturnsAsync(user);
+            _mockUserManager.Setup(x => x.GetAuthenticatorKeyAsync(user)).ReturnsAsync("SECRETKEY");
+
+            var result = await _controller.Enable2FA("testuser");
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var jsonStr = System.Text.Json.JsonSerializer.Serialize(okResult.Value);
+            Assert.Contains("SECRETKEY", jsonStr);
+        }
+
+        [Fact]
+        public async Task VerifySetup2FA_UserNotFound_ReturnsNotFound()
+        {
+            _mockUserManager.Setup(x => x.FindByNameAsync("nonexistent")).ReturnsAsync((ApplicationUser)null!);
+
+            var result = await _controller.VerifySetup2FA("nonexistent", new Setup2faDto { Code = "123456" });
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task VerifySetup2FA_InvalidCode_ReturnsBadRequest()
+        {
+            var user = new ApplicationUser { UserName = "testuser" };
+            _mockUserManager.Setup(x => x.FindByNameAsync("testuser")).ReturnsAsync(user);
+            _mockUserManager.Setup(x => x.VerifyTwoFactorTokenAsync(user, It.IsAny<string>(), "wrong")).ReturnsAsync(false);
+
+            var result = await _controller.VerifySetup2FA("testuser", new Setup2faDto { Code = "wrong" });
+
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Invalid 2FA code.", badRequestResult.Value);
+        }
+
+        [Fact]
+        public async Task VerifySetup2FA_Success_ReturnsOk()
+        {
+            var user = new ApplicationUser { UserName = "testuser" };
+            _mockUserManager.Setup(x => x.FindByNameAsync("testuser")).ReturnsAsync(user);
+            _mockUserManager.Setup(x => x.VerifyTwoFactorTokenAsync(user, It.IsAny<string>(), "correct")).ReturnsAsync(true);
+            _mockUserManager.Setup(x => x.SetTwoFactorEnabledAsync(user, true)).ReturnsAsync(IdentityResult.Success);
+
+            var result = await _controller.VerifySetup2FA("testuser", new Setup2faDto { Code = "correct" });
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var jsonStr = System.Text.Json.JsonSerializer.Serialize(okResult.Value);
+            Assert.Contains("successfully", jsonStr);
+        }
+
+        [Fact]
+        public async Task Disable2FA_UserNotFound_ReturnsNotFound()
+        {
+            _mockUserManager.Setup(x => x.FindByNameAsync("nonexistent")).ReturnsAsync((ApplicationUser)null!);
+
+            var result = await _controller.Disable2FA("nonexistent");
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task Disable2FA_Success_ReturnsOk()
+        {
+            var user = new ApplicationUser { UserName = "testuser" };
+            _mockUserManager.Setup(x => x.FindByNameAsync("testuser")).ReturnsAsync(user);
+            _mockUserManager.Setup(x => x.SetTwoFactorEnabledAsync(user, false)).ReturnsAsync(IdentityResult.Success);
+
+            var result = await _controller.Disable2FA("testuser");
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var jsonStr = System.Text.Json.JsonSerializer.Serialize(okResult.Value);
+            Assert.Contains("disabled successfully", jsonStr);
+        }
+
+        [Fact]
+        public async Task RefreshToken_InvalidRequest_ReturnsBadRequest()
+        {
+            var result = await _controller.RefreshToken(null!);
+
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Invalid client request", badRequestResult.Value);
+        }
     }
 }
