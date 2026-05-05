@@ -482,3 +482,23 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Visual studio build outputs
+AI-Generated-Chat-System.API/bin/
+AI-Generated-Chat-System.API/obj/
+AI-Generated-Chat-System.Application/bin/
+AI-Generated-Chat-System.Application/obj/
+AI-Generated-Chat-System.Domain/bin/
+AI-Generated-Chat-System.Domain/obj/
+AI-Generated-Chat-System.Infrastructure/bin/
+AI-Generated-Chat-System.Infrastructure/obj/
+
+# SQLite database files
+AI-Generated-Chat-System.API/*.db
+AI-Generated-Chat-System.API/*.db-wal
+AI-Generated-Chat-System.API/*.db-shm
+
+# Other files
+*.db
+*.db-wal
+*.db-shm
